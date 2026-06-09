@@ -1,0 +1,11 @@
+{
+  "Author": "Hitamaru16",
+  "Name": "ChatPoll",
+  "Punchline": "A Plugin that allows for Chat-Integrated Polls",
+    "Description": "A description that shows up in /xlplugins. List any major slash-command(s).\n/chatpoll : Opens the MainWindow",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "chat",
+    "plugin"
+  ]
+}
