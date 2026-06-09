@@ -13,7 +13,7 @@ Want to vote on small things with your FC or Friends within XIV? This small Plug
     * Cancelling a Poll will not show/calculate any answers gathered. 
 * Configuring a Poll
   * You can make answers Case-Sensitive.
-  * Aliases can be enabled, allowing Participants to vote with `Answer 1, "Answer 2 etc.`. Aliases are unaffected by Case-Sensitivity.
+  * Aliases can be enabled, allowing Participants to vote with `Answer 1, Answer 2, etc`. Aliases are unaffected by Case-Sensitivity.
     * Additionally, you can also enable `Alias Only`, so that it is the only way to vote.
   * You can also allow Participants to change their answer.
 
