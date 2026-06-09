@@ -1,6 +1,6 @@
 # ChatPoll
 
-Simple example plugin for Dalamud.
+Want to vote on small things with your FC or Friends within XIV? This small Plugin is just for you!
 
 ## How To Use
 
@@ -13,8 +13,8 @@ Simple example plugin for Dalamud.
     * Cancelling a Poll will not show/calculate any answers gathered. 
 * Configuring a Poll
   * You can make answers Case-Sensitive.
-  * Aliases can be enabled, allowing Participants to vote with "Answer 1", "Answer 2" etc. Aliases are unaffected by Case-Sensitivity.
-    * Additionally, you can also enable "Alias Only", so that it is the only way to vote.
+  * Aliases can be enabled, allowing Participants to vote with `Answer 1, "Answer 2 etc.`. Aliases are unaffected by Case-Sensitivity.
+    * Additionally, you can also enable `Alias Only`, so that it is the only way to vote.
   * You can also allow Participants to change their answer.
 
 ## How To Install
@@ -22,5 +22,5 @@ Simple example plugin for Dalamud.
 * Add `{put repo-link here}` to your custom repositories in the "Experimental"-tab of your Dalamud-Settings
 * You should be able to find it in `/xlplugins` by looking for "ChatPoll"!
 
-
-### Disclaimer: This is my first Plugin-Project, and thus might be a bit clunky and imperfect. If there are any issues, please let me know.
+### Disclaimer
+This is my first Plugin-Project, and thus might be a bit clunky and imperfect. If there are any issues, please let me know.
