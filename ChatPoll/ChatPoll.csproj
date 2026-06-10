@@ -5,6 +5,5 @@
     <Description>A Plugin that allows the creation of Polls within a Text-Channel!</Description>
     <PackageProjectUrl>https://github.com/Hitamaru16/ChatPoll</PackageProjectUrl>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 </Project>

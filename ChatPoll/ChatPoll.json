@@ -1,14 +1,20 @@
 {
-    "Author": "Hitamaru16",
-    "Name": "ChatPoll",
-    "Punchline": "A Plugin that allows for Chat-Integrated Polls",
-    "Description": "A Plugin that allows the creation of Polls within a Text-Channel!\n\n/chatpoll : Opens ChatPoll",
-    "ApplicableVersion": "any",
-    "Tags": [
-        "chat",
-        "plugin"
-    ],
-    "DalamudApiLevel": "15",
-    "IconUrl": "https://raw.githubusercontent.com/Hitamaru16/HitamaruPlugins/master/ChatPoll/icon.png"
-
+  "Author": "Hitamaru16",
+  "Name": "ChatPoll",
+  "InternalName": "ChatPoll",
+  "AssemblyVersion": "1.0.0.0",
+  "Description": "A Plugin that allows the creation of Polls within a Text-Channel!\n\n/chatpoll : Opens ChatPoll",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "chat",
+    "plugin"
+  ],
+  "DalamudApiLevel": 15,
+  "LoadRequiredState": 0,
+  "LoadSync": false,
+  "CanUnloadAsync": false,
+  "LoadPriority": 0,
+  "IconUrl": "https://raw.githubusercontent.com/Hitamaru16/HitamaruPlugins/master/ChatPoll/icon.png",
+  "Punchline": "A Plugin that allows for Chat-Integrated Polls",
+  "AcceptsFeedback": true
 }
