@@ -1,0 +1,156 @@
+// Source: https://git.anna.lgbt/anna/XivCommon/src/branch/main/XivCommon/Functions/Chat.cs
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using System.Text;
+using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.System.String;
+using FFXIVClientStructs.FFXIV.Client.UI;
+
+namespace ChatPoll.Chat;
+
+/// <summary>
+/// A class containing chat functionality
+/// </summary>
+public class ChatServer
+{
+    private static class Signatures
+    {
+        internal const string SendChat = "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 48 8B F2 48 8B F9 45 84 C9";
+        internal const string SanitiseString = "48 89 5C 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ?? 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 70 4D 8B F8 4C 89 44 24 ?? 4C 8B 05 ?? ?? ?? ?? 44 8B E2";
+    }
+
+    private delegate void ProcessChatBoxDelegate(nint uiModule, nint message, nint unused, byte a4);
+
+    private ProcessChatBoxDelegate? ProcessChatBox { get; }
+
+    private readonly unsafe delegate* unmanaged<Utf8String*, int, nint, void> sanitiseString = null!;
+
+    internal ChatServer(ISigScanner scanner)
+    {
+        if (scanner.TryScanText(Signatures.SendChat, out var processChatBoxPtr))
+        {
+            ProcessChatBox = Marshal.GetDelegateForFunctionPointer<ProcessChatBoxDelegate>(processChatBoxPtr);
+        }
+
+        unsafe
+        {
+            if (scanner.TryScanText(Signatures.SanitiseString, out var sanitisePtr))
+            {
+                sanitiseString = (delegate* unmanaged<Utf8String*, int, nint, void>)sanitisePtr;
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>
+    /// Send a given message to the chat box. <b>This can send chat to the server.</b>
+    /// </para>
+    /// <para>
+    /// <b>This method is unsafe.</b> This method does no checking on your input and
+    /// may send content to the server that the normal client could not. You must
+    /// verify what you're sending and handle content and length to properly use
+    /// 
+    /// </para>
+    /// </summary>
+    /// <param name="message">Message to send</param>
+    /// <exception cref="InvalidOperationException">If the signature for this function could not be found</exception>
+    public unsafe void SendMessageUnsafe(byte[] message)
+    {
+        var mes = Utf8String.FromSequence(message);
+        UIModule.Instance()->ProcessChatBoxEntry(mes);
+        mes->Dtor(true);
+    }
+
+    /// <summary>
+    /// <para>
+    /// Send a given message to the chat box. <b>This can send chat to the server.</b>
+    /// </para>
+    /// <para>
+    /// This method is slightly less unsafe than <see cref="SendMessageUnsafe"/>. It
+    /// will throw exceptions for certain inputs that the client can't normally send,
+    /// but it is still possible to make mistakes. Use with caution.
+    /// </para>
+    /// </summary>
+    /// <param name="message">message to send</param>
+    /// <exception cref="ArgumentException">If <paramref name="message"/> is empty, longer than 500 bytes in UTF-8, or contains invalid characters.</exception>
+    /// <exception cref="InvalidOperationException">If the signature for this function could not be found</exception>
+    public void SendMessage(string message)
+    {
+        var bytes = Encoding.UTF8.GetBytes(message);
+        if (bytes.Length == 0)
+        {
+            throw new ArgumentException("message is empty", nameof(message));
+        }
+
+        if (bytes.Length > 500)
+        {
+            throw new ArgumentException("message is longer than 500 bytes", nameof(message));
+        }
+
+        if (message.Length != SanitiseText(message).Length)
+        {
+            throw new ArgumentException("message contained invalid characters", nameof(message));
+        }
+
+        SendMessageUnsafe(bytes);
+    }
+
+    /// <summary>
+    /// <para>
+    /// Sanitises a string by removing any invalid input.
+    /// </para>
+    /// <para>
+    /// The result of this method is safe to use with
+    /// <see cref="SendMessage"/>, provided that it is not empty or too
+    /// long.
+    /// </para>
+    /// </summary>
+    /// <param name="text">text to sanitise</param>
+    /// <returns>sanitised text</returns>
+    /// <exception cref="InvalidOperationException">If the signature for this function could not be found</exception>
+    public unsafe string SanitiseText(string text)
+    {
+        var uText = Utf8String.FromString(text);
+
+        uText->SanitizeString((AllowedEntities)0x27F);
+        var sanitised = uText->ToString();
+        uText->Dtor(true);
+
+        return sanitised;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    private readonly struct ChatPayload : IDisposable
+    {
+        [FieldOffset(0)]
+        private readonly nint textPtr;
+
+        [FieldOffset(16)]
+        private readonly ulong textLen;
+
+        [FieldOffset(8)]
+        private readonly ulong unk1;
+
+        [FieldOffset(24)]
+        private readonly ulong unk2;
+
+        internal ChatPayload(byte[] stringBytes)
+        {
+            textPtr = Marshal.AllocHGlobal(stringBytes.Length + 30);
+            Marshal.Copy(stringBytes, 0, textPtr, stringBytes.Length);
+            Marshal.WriteByte(textPtr + stringBytes.Length, 0);
+
+            textLen = (ulong)(stringBytes.Length + 1);
+
+            unk1 = 64;
+            unk2 = 0;
+        }
+
+        public void Dispose()
+        {
+            Marshal.FreeHGlobal(textPtr);
+        }
+    }
+}
