@@ -20,7 +20,7 @@ public class MainWindow : Window, IDisposable
     private readonly Plugin plugin;
 
     public MainWindow(Plugin mainPlugin)
-        : base("ChatPoll v1.0.0###MainWindow", ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoScrollbar
+        : base("ChatPoll###MainWindow", ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoScrollbar
                                            | ImGuiWindowFlags.NoScrollWithMouse)
     {
         Size = new Vector2(375, 660);
