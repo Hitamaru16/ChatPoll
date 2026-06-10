@@ -1,11 +1,15 @@
 {
-  "Author": "Hitamaru16",
-  "Name": "ChatPoll",
-  "Punchline": "A Plugin that allows for Chat-Integrated Polls",
-    "Description": "A description that shows up in /xlplugins. List any major slash-command(s).\n/chatpoll : Opens the MainWindow",
-  "ApplicableVersion": "any",
-  "Tags": [
-    "chat",
-    "plugin"
-  ]
+    "Author": "Hitamaru16",
+    "Name": "ChatPoll",
+    "Punchline": "A Plugin that allows for Chat-Integrated Polls",
+    "Description": "A Plugin that allows the creation of Polls within a Text-Channel!\n\n/chatpoll : Opens ChatPoll",
+    "ApplicableVersion": "any",
+    "Tags": [
+        "chat",
+        "plugin"
+    ],
+    "DalamudApiLevel": "15",
+    "Version": "1.0.0",
+    "IconUrl": "https://raw.githubusercontent.com/Hitamaru16/HitamaruPlugins/master/ChatPoll/icon.png"
+
 }
