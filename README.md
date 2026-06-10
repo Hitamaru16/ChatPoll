@@ -19,7 +19,7 @@ Want to vote on small things with your FC or Friends within XIV? This small Plug
 
 ## How To Install
 
-* Add `{put repo-link here}` to your custom repositories in the "Experimental"-tab of your Dalamud-Settings
+* Add `https://raw.githubusercontent.com/Hitamaru16/HitamaruPlugins/main/plugins.json` to your custom repositories in the "Experimental"-tab of your Dalamud-Settings
 * You should be able to find it in `/xlplugins` by looking for "ChatPoll"!
 
 ### Disclaimer
